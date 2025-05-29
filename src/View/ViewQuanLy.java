@@ -168,6 +168,11 @@ public class ViewQuanLy extends javax.swing.JFrame {
                 btnNhanVienMouseClicked(evt);
             }
         });
+        btnNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhanVienActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnNhanVien);
         btnNhanVien.setBounds(0, 360, 200, 60);
 
@@ -257,16 +262,20 @@ public class ViewQuanLy extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKhachHangMouseClicked
 
     private void btnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanVienMouseClicked
-        // TODO add yowNhur handling code here:
-        setpanel(new ViewNhanVien());
-        JButton[] btn1 = {btnBanHang, btnSanPham, btnHoaDon, btnThongKe, btnKhachHang, btnVoucher, btnThoat};
-        JButton[] btn2 = {btnNhanVien};
-        for (JButton btn22 : btn2) {
-            btn22.setBackground(new Color(9, 107, 104));
-        }
-        for (JButton btn11 : btn1) {
-            btn11.setBackground(new Color(128,203,196));
-        }
+//
+//        // TODO add yowNhur handling code here:
+//        setpanel(new ViewNhanVien());
+//
+//        // TODO add your handling code here:
+//        setpanel(new ViewNhanVien(this, rootPaneCheckingEnabled));
+//        JButton[] btn1 = {btnBanHang, btnSanPham, btnHoaDon, btnThongKe, btnKhachHang, btnVoucher, btnThoat};
+//        JButton[] btn2 = {btnNhanVien};
+//        for (JButton btn22 : btn2) {
+//            btn22.setBackground(new Color(9, 107, 104));
+//        }
+//        for (JButton btn11 : btn1) {
+//            btn11.setBackground(new Color(128,203,196));
+//        }
     }//GEN-LAST:event_btnNhanVienMouseClicked
 
     private void btnThoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThoatMouseClicked
@@ -307,6 +316,10 @@ public class ViewQuanLy extends javax.swing.JFrame {
             btn11.setBackground(new Color(128,203,196));
         }
     }//GEN-LAST:event_btnVoucherMouseClicked
+
+    private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNhanVienActionPerformed
 
     /**
      * @param args the command line arguments
