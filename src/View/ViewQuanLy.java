@@ -257,7 +257,7 @@ public class ViewQuanLy extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKhachHangMouseClicked
 
     private void btnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanVienMouseClicked
-        // TODO add your handling code here:
+        // TODO add yowNhur handling code here:
         setpanel(new ViewNhanVien());
         JButton[] btn1 = {btnBanHang, btnSanPham, btnHoaDon, btnThongKe, btnKhachHang, btnVoucher, btnThoat};
         JButton[] btn2 = {btnNhanVien};
