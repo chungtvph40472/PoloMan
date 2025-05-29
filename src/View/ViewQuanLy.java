@@ -258,7 +258,7 @@ public class ViewQuanLy extends javax.swing.JFrame {
 
     private void btnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanVienMouseClicked
         // TODO add your handling code here:
-        setpanel(new ViewNhanVien());
+        setpanel(new ViewNhanVien(this, rootPaneCheckingEnabled));
         JButton[] btn1 = {btnBanHang, btnSanPham, btnHoaDon, btnThongKe, btnKhachHang, btnVoucher, btnThoat};
         JButton[] btn2 = {btnNhanVien};
         for (JButton btn22 : btn2) {
