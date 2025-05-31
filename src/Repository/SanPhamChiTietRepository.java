@@ -53,7 +53,7 @@ public class SanPhamChiTietRepository {
         }
         return list;
     }
-    
+
     public boolean updateSoLuong(SanPhamChiTietResponse response) {
         int check = 0;
         String sql = """
@@ -62,8 +62,7 @@ public class SanPhamChiTietRepository {
                           SoLuong = ?
                      WHERE MaSanPhamCT = ?
                      """;
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, response.getSoLuong());
             ps.setObject(2, response.getMaSanPhamCT());
             check = ps.executeUpdate();
@@ -73,4 +72,9 @@ public class SanPhamChiTietRepository {
         return check > 0;
 
     }
+
+//    public boolean updateSanPham(SanPhamChiTietResponse response) {
+//      
+//    }
+
 }

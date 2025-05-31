@@ -5,13 +5,14 @@
 package View;
 
 import Entity.Voucher;
-import Repository.VocherRepository;
+import Repository.VoucherRepository;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -24,12 +25,14 @@ public class ViewVoucher extends javax.swing.JPanel {
     private int index = 0;
     private DefaultTableModel dtm;
 
-    private VocherRepository vcRepo;
+    private VoucherRepository vcRepo;
 
     public ViewVoucher() {
         initComponents();
+        jdateNgayBD.setLocale(new Locale("vi", "VN"));
+        jdateNgayKT.setLocale(new Locale("vi", "VN"));
         dtm = (DefaultTableModel) tblVoucher.getModel();
-        vcRepo = new VocherRepository();
+        vcRepo = new VoucherRepository();
         showDataTable(vcRepo.getAll());
     }
 

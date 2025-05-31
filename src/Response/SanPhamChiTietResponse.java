@@ -21,6 +21,7 @@ public class SanPhamChiTietResponse {
     private String maSanPham;
     private String maSanPhamCT;
     private String tenSanPham;
+    private String tenSanPhamMoi;
     private String tenMauSac;
     private String tenKichThuoc;
     private String tenChatLieu;
@@ -33,7 +34,7 @@ public class SanPhamChiTietResponse {
     public SanPhamChiTietResponse() {
     }
 
-    public SanPhamChiTietResponse(int id, int idSanPham, int idMauSac, int idKichThuoc, int idChatLieu, String maSanPham, String maSanPhamCT, String tenSanPham, String tenMauSac, String tenKichThuoc, String tenChatLieu, BigDecimal gia, String moTa, int soLuong, Date ngayNhap, int trangThai) {
+    public SanPhamChiTietResponse(int id, int idSanPham, int idMauSac, int idKichThuoc, int idChatLieu, String maSanPham, String maSanPhamCT, String tenSanPham, String tenSanPhamMoi, String tenMauSac, String tenKichThuoc, String tenChatLieu, BigDecimal gia, String moTa, int soLuong, Date ngayNhap, int trangThai) {
         this.id = id;
         this.idSanPham = idSanPham;
         this.idMauSac = idMauSac;
@@ -42,6 +43,7 @@ public class SanPhamChiTietResponse {
         this.maSanPham = maSanPham;
         this.maSanPhamCT = maSanPhamCT;
         this.tenSanPham = tenSanPham;
+        this.tenSanPhamMoi = tenSanPhamMoi;
         this.tenMauSac = tenMauSac;
         this.tenKichThuoc = tenKichThuoc;
         this.tenChatLieu = tenChatLieu;
@@ -114,6 +116,14 @@ public class SanPhamChiTietResponse {
 
     public void setTenSanPham(String tenSanPham) {
         this.tenSanPham = tenSanPham;
+    }
+
+    public String getTenSanPhamMoi() {
+        return tenSanPhamMoi;
+    }
+
+    public void setTenSanPhamMoi(String tenSanPhamMoi) {
+        this.tenSanPhamMoi = tenSanPhamMoi;
     }
 
     public String getTenMauSac() {
