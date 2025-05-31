@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import com.toedter.calendar.JDateChooser;
 import javax.swing.table.DefaultTableModel;
 
 public class ViewThongKe extends javax.swing.JPanel {
@@ -27,6 +28,7 @@ public class ViewThongKe extends javax.swing.JPanel {
     private DefaultComboBoxModel comboModel;
     int index = 0;
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    JDateChooser dateChooser = new JDateChooser();
 
     public ViewThongKe() {
         initComponents();
@@ -35,8 +37,9 @@ public class ViewThongKe extends javax.swing.JPanel {
         listTk = tkrepo.getAllThongKe();
         model = (DefaultTableModel) tblDoanhThu.getModel();
         filltable(listTk);
-//        dateNgayBD.getDateEditor().setEnabled(false);
-//        dateNgayKT.getDateEditor().setEnabled(false);
+        dateNgayBD.setLocale(new Locale("vi", "VN"));
+        dateNgayKT.setLocale(new Locale("vi", "VN"));
+
         LocVaTinhToanDoanhThu(null, null);
 
     }
@@ -70,18 +73,18 @@ public class ViewThongKe extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Doanh thu :");
 
-        txtdoanhthu.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtdoanhthu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtdoanhthu.setForeground(new java.awt.Color(255, 0, 0));
         txtdoanhthu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtdoanhthu.setText("_");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Tổng sản phẩm bán ra:");
 
-        txttongsp.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txttongsp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txttongsp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txttongsp.setText("_");
 
@@ -119,6 +122,7 @@ public class ViewThongKe extends javax.swing.JPanel {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel3, txtdoanhthu, txttongsp});
 
+        tblDoanhThu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblDoanhThu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -130,6 +134,7 @@ public class ViewThongKe extends javax.swing.JPanel {
                 "Tên sản phẩm", "Giá", "Số lượng", "Thành tiền", "Trạng thái", "Ngày thanh toán"
             }
         ));
+        tblDoanhThu.setRowHeight(30);
         jScrollPane1.setViewportView(tblDoanhThu);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -210,7 +215,7 @@ public class ViewThongKe extends javax.swing.JPanel {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(72, 72, 72))
         );
@@ -260,6 +265,7 @@ public class ViewThongKe extends javax.swing.JPanel {
         index = 1;
         for (ThongKeReponse tk : listTk) {
             String trangThaiText = (tk.getTrangThai() == 1) ? "Đã thanh toán" : "Đã huỷ";
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String giaVND = currencyFormat.format(tk.getThanhTien());
             model.addRow(new Object[]{
                 tk.getTenSanPham(),
@@ -267,8 +273,7 @@ public class ViewThongKe extends javax.swing.JPanel {
                 tk.getSoLuong(),
                 giaVND,
                 trangThaiText,
-                tk.getNgayThanhToan()
-            });
+                tk.getNgayThanhToan() != null ? sdf.format(tk.getNgayThanhToan()) : "",});
         }
     }
 
@@ -300,6 +305,7 @@ public class ViewThongKe extends javax.swing.JPanel {
                 }
             }
         }
+
         String giaVND = currencyFormat.format(tongDoanhThu);
         filltable(ketQua);
         txtdoanhthu.setText(giaVND);

@@ -2,17 +2,18 @@ package Repository;
 
 import Entity.SanPham;
 import JDBCUtil.DBConnect;
+import Response.SanPhamResponse;
 import java.util.ArrayList;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class SanPhamRepository {
 
-    public ArrayList<SanPham> getAll() {
+    public ArrayList<SanPhamResponse> getAll() {
         String sql = """
                         SELECT
                                 sp.Id,
-                                sp.IdThuongHieu,
+                                th.TenThuongHieu,
                                 sp.MaSanPham,
                                 sp.TenSanPham,
                                 SUM(spct.SoLuong) AS SoLuongTong,
@@ -20,21 +21,23 @@ public class SanPhamRepository {
                         FROM
                                 SanPham sp	
                         JOIN SanPhamChiTiet spct ON sp.Id = spct.IdSanPham
+                        JOIN ThuongHieu th ON sp.IdThuongHieu = th.Id
                         GROUP BY 
                                 sp.Id,
                                 sp.IdThuongHieu,
+                                th.TenThuongHieu,
                                 sp.MaSanPham,
                                 sp.TenSanPham,
                                 spct.SoLuong,
                                 sp.TrangThai
                      """;
 
-        ArrayList<SanPham> listSanPham = new ArrayList<>();
+        ArrayList<SanPhamResponse> listSanPham = new ArrayList<>();
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                SanPham sanPham = new SanPham();
+                SanPhamResponse sanPham = new SanPhamResponse();
                 sanPham.setIdSanPham(rs.getInt("Id"));
-                sanPham.setIdThuongHieu(rs.getInt("IdThuongHieu"));
+                sanPham.setTenThuongHieu(rs.getString("TenThuongHieu"));
                 sanPham.setMaSanPham(rs.getString("MaSanPham"));
                 sanPham.setTenSanPham(rs.getString("TenSanPham"));
                 sanPham.setSoLuong(rs.getInt("SoLuongTong"));
@@ -81,28 +84,21 @@ public class SanPhamRepository {
         return check > 0;
     }
 
-    public boolean update(SanPham sanPham) {
+    public boolean update(SanPhamResponse sp) {
         int check = 0;
-        String sql = """
-                     UPDATE SanPham
-                     SET
-                        TenSanPham = ?,
-                        SoLuong = ?, 
-                        TrangThai = ?
-                     WHERE
-                        Id = ?
-                     """;
+        String sql = "{CALL UpdateSanPham(?, ?, ?)}"; // Gọi thủ tục
 
-        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, sanPham.getTenSanPham());
-            ps.setInt(2, sanPham.getSoLuong());
-            ps.setInt(3, sanPham.getTrangThai());
-            ps.setInt(4, sanPham.getIdSanPham());
-            check = ps.executeUpdate();
+        try (Connection con = DBConnect.getConnection(); CallableStatement cs = con.prepareCall(sql)) {
+
+            cs.setInt(1, sp.getIdSanPham());
+            cs.setString(2, sp.getTenSanPham());
+            cs.setInt(3, sp.getTrangThai());
+            check = cs.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+
         return check > 0;
     }
 
@@ -124,23 +120,36 @@ public class SanPhamRepository {
         return check > 0;
     }
 
-    public ArrayList<SanPham> search(String keyword) {
+    public ArrayList<SanPhamResponse> search(String keyword) {
         String sql = """
-                     SELECT
+                SELECT
                         sp.Id,
+                        th.TenThuongHieu,
                         sp.MaSanPham,
                         sp.TenSanPham,
-                        spct
+                        SUM(spct.SoLuong) AS SoLuongTong,
                         sp.TrangThai
-                     FROM
-                        SanPham sp
-                     WHERE
+                FROM
+                        SanPham sp	
+                JOIN    
+                        SanPhamChiTiet spct ON sp.Id = spct.IdSanPham
+                JOIN 
+                        ThuongHieu th ON sp.IdThuongHieu = th.Id
+                WHERE
                         sp.TenSanPham LIKE ?
-                     OR 
-                        sp.MaSanPham LIKE ?
+                OR 
+                        sp.MaSanPham LIKE  ?
+                GROUP BY 
+                        sp.Id,
+                        sp.IdThuongHieu,
+                        th.TenThuongHieu,
+                        sp.MaSanPham,
+                        sp.TenSanPham,
+                        spct.SoLuong,
+                        sp.TrangThai
                      """;
 
-        ArrayList<SanPham> list = new ArrayList<>();
+        ArrayList<SanPhamResponse> list = new ArrayList<>();
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             if (keyword.length() > 0) {
                 String value = "%" + keyword + "%";
@@ -151,10 +160,12 @@ public class SanPhamRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                SanPham sanPham = new SanPham();
+                SanPhamResponse sanPham = new SanPhamResponse();
                 sanPham.setIdSanPham(rs.getInt("Id"));
+                sanPham.setTenThuongHieu(rs.getString("TenThuongHieu"));
                 sanPham.setMaSanPham(rs.getString("MaSanPham"));
                 sanPham.setTenSanPham(rs.getString("TenSanPham"));
+                sanPham.setSoLuong(rs.getInt("SoLuongTong"));
                 sanPham.setTrangThai(rs.getInt("TrangThai"));
 
                 list.add(sanPham);

@@ -19,7 +19,7 @@ import java.sql.SQLException;
  *
  * @author nguyensyan
  */
-public class VocherRepository {
+public class VoucherRepository {
     
     public ArrayList<Voucher> getAll(){
          ArrayList<Voucher> list = new ArrayList<>();
